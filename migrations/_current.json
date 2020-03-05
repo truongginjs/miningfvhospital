@@ -1,0 +1,17 @@
+{
+    "tables": {
+        "doctors": {
+            "tableName": "doctors",
+            "indexes": []
+        },
+        "medical_specialities": {
+            "tableName": "medical_specialities",
+            "indexes": []
+        },
+        "working_hours": {
+            "tableName": "working_hours",
+            "indexes": []
+        }
+    },
+    "revision": 1
+}

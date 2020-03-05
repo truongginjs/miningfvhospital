@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "ivsnhdra",
+    "password": "gyN4Z6OPzHvr6jp9ZsNLmYkfm2HkuM3f",
+    "database": "ivsnhdra",
+    "host": "john.db.elephantsql.com",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "ivsnhdra",
+    "password": "gyN4Z6OPzHvr6jp9ZsNLmYkfm2HkuM3f",
+    "database": "ivsnhdra",
+    "host": "john.db.elephantsql.com",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "ivsnhdra",
+    "password": "gyN4Z6OPzHvr6jp9ZsNLmYkfm2HkuM3f",
+    "database": "ivsnhdra",
+    "host": "john.db.elephantsql.com",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  }
+}
