@@ -42,7 +42,7 @@ const doctor = sequelize.define('doctors', {
     speciality_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: medical_speciality,
+            model: "medical_specialities",
             key: 'id',
             deferrable: Deferrable.INITIALLY_DEFERRED
         }
@@ -71,7 +71,7 @@ const working_hour = sequelize.define('working_hours', {
     bar_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: doctor,
+            model: "doctors",
             key: 'id',
             deferrable: Deferrable.INITIALLY_DEFERRED
         }
@@ -79,22 +79,22 @@ const working_hour = sequelize.define('working_hours', {
 
 })
 const { medical_specialities, doctors } = mining.toModels();
-console.log("=========================medical_specialities:")
+console.log("=========================medical_speciality:")
 console.log(medical_specialities[0]);
 console.log("=========================doctors:")
 console.log(doctors[0]);
 
-console.log(medical_speciality === sequelize.models.medical_specialities)
+console.log(medical_speciality === sequelize.models.medical_speciality)
 console.log(doctor === sequelize.models.doctors)
 console.log(working_hour === sequelize.models.working_hours)
 
 medical_speciality.create(medical_specialities[0]);
 
-// medical_specialities.forEach(async s => {
+// medical_speciality.forEach(async s => {
 //     await medical_speciality.create(s);
 // });
 
 
 
   // `sequelize.define` also returns the model
-//   console.log(medical_specialities === sequelize.models.medical_specialities); // true
+//   console.log(medical_speciality === sequelize.models.medical_speciality); // true

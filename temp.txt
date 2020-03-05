@@ -1,0 +1,56 @@
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.sequelize.transaction(t => {
+      return Promise.all([
+        queryInterface.createTable(
+          "tbl_admin",
+          {
+            id: {
+              type: Sequelize.UUID,
+              defaultValue: Sequelize.UUIDV1,
+              primaryKey: true
+            },
+            uid: {
+              type: Sequelize.STRING
+            },
+            email: {
+              type: Sequelize.STRING
+            },
+            name: {
+              type: Sequelize.STRING
+            },
+            avatar: {
+              type: Sequelize.STRING
+            },
+            role: {
+              type: Sequelize.STRING
+            },
+            birthday: {
+              type: Sequelize.DATE
+            },
+            createdAt: {
+              type: Sequelize.DATE,
+              defaultValue: Sequelize.NOW,
+              allowNull: false
+            },
+            updatedAt: {
+              type: Sequelize.DATE,
+              defaultValue: Sequelize.NOW,
+              allowNull: false
+            },
+            deletedAt: { type: Sequelize.DATE }
+          },
+          { transaction: t }
+        )
+      ]);
+    });
+  },
+
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.sequelize.transaction(t => {
+      return Promise.all([
+        queryInterface.dropTable("tbl_admin", { transaction: t })
+      ]);
+    });
+  }
+};

@@ -1,9 +1,14 @@
 'use strict';
-const {Deferrable}=require('sequelize')
-const doctor= require('./doctor')
+const { Deferrable } = require('sequelize')
+const doctor = require('./doctor')
 module.exports = (sequelize, DataTypes) => {
-  
-  const working_hour = sequelize.define('working_hour', {
+
+  const Model = sequelize.define('working_hour', {
+
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     day: {
       type: DataTypes.STRING
     },
@@ -22,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   }, {});
-  working_hour.associate = function (models) {
+  Model.associate = function (models) {
     // associations can be defined here
   };
-  return working_hour;
+  return Model;
 };
