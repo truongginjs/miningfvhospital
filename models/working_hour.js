@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     location: {
       type: DataTypes.TEXT
     },
-    bar_id: {
+    doctor_id: {
       type: DataTypes.INTEGER,
       references: {
         model: doctor,

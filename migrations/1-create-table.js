@@ -1,8 +1,6 @@
 'use strict';
 
-var {Sequelize,DataTypes,Deferrable} = require('sequelize');
-var doctor = require('../models/doctor');
-var medical_speciality= require('../models/medical_speciality')
+var { Sequelize, DataTypes, Deferrable } = require('sequelize');
 /**
  * Actions summary:
  *
@@ -31,9 +29,6 @@ var migrationCommands = [{
             name: {
                 type: DataTypes.STRING
             },
-            name1: {
-                type: DataTypes.STRING
-            },
             image: {
                 type: DataTypes.TEXT
             },
@@ -48,11 +43,7 @@ var migrationCommands = [{
             },
             speciality_id: {
                 type: DataTypes.INTEGER,
-                references: {
-                    model: medical_speciality,
-                    key: 'id',
-                    deferrable: Deferrable.INITIALLY_DEFERRED
-                }
+
             },
             term_permalink: {
                 type: DataTypes.TEXT
@@ -89,7 +80,7 @@ var migrationCommands = [{
             },
             name: {
                 type: DataTypes.STRING
-            }, 
+            },
             createdAt: {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.NOW,
@@ -110,6 +101,11 @@ var migrationCommands = [{
     params: [
         "working_hours",
         {
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
+            },
             day: {
                 type: DataTypes.STRING
             },
@@ -119,13 +115,9 @@ var migrationCommands = [{
             location: {
                 type: DataTypes.TEXT
             },
-            bar_id: {
+            doctor_id: {
                 type: DataTypes.INTEGER,
-                references: {
-                    model: doctor,
-                    key: 'id',
-                    deferrable: Deferrable.INITIALLY_DEFERRED
-                }
+
             },
             createdAt: {
                 type: Sequelize.DATE,

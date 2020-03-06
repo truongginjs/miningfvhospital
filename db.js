@@ -13,9 +13,9 @@ const medical_speciality = sequelize.define('medical_specialities', {
         type: DataTypes.STRING
     }
 },
- {
-  freezeTableName: true
-});
+    {
+        freezeTableName: true
+    });
 
 
 
@@ -42,7 +42,7 @@ const doctor = sequelize.define('doctors', {
     speciality_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: "medical_specialities",
+            model: medical_speciality,
             key: 'id',
             deferrable: Deferrable.INITIALLY_DEFERRED
         }
@@ -59,6 +59,11 @@ const doctor = sequelize.define('doctors', {
 })
 
 const working_hour = sequelize.define('working_hours', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     day: {
         type: DataTypes.STRING
     },
@@ -68,10 +73,10 @@ const working_hour = sequelize.define('working_hours', {
     location: {
         type: DataTypes.TEXT
     },
-    bar_id: {
+    doctor_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: "doctors",
+            model: doctor,
             key: 'id',
             deferrable: Deferrable.INITIALLY_DEFERRED
         }
@@ -84,15 +89,33 @@ console.log(medical_specialities[0]);
 console.log("=========================doctors:")
 console.log(doctors[0]);
 
-console.log(medical_speciality === sequelize.models.medical_speciality)
+console.log(medical_speciality === sequelize.models.medical_specialities)
 console.log(doctor === sequelize.models.doctors)
 console.log(working_hour === sequelize.models.working_hours)
 
-medical_speciality.create(medical_specialities[0]);
 
-// medical_speciality.forEach(async s => {
-//     await medical_speciality.create(s);
-// });
+medical_specialities.forEach(async s => {
+    await medical_speciality.create(s);
+})
+// const d = doctors[0]
+// const w = d.working_hours[0]
+// working_hour.create({ ...w, doctor_id: d.id })
+
+// delete d.working_hours;
+// d.speciality_id = medical_specialities.find(x => x.name === d.speciality).id
+// delete d.speciality
+// doctor.create(d)
+
+
+doctors.forEach(async d=>{
+    d.working_hours.forEach(async w=>{
+        await working_hour.create({...w,doctor_id: d.id})
+    })
+    delete d.working_hours;
+    d.speciality_id=medical_specialities.find(x=>x.name===d.speciality).id
+    delete d.speciality
+    await doctor.create(d)
+})
 
 
 
