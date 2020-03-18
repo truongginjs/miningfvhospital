@@ -2,10 +2,11 @@ const express = require('express')
 const mining = require('./mining.js');
 
 const link='https://www.fvhospital.com/find-a-doctor/'
+const linkvn='https://www.fvhospital.com/vi/tim-bac-si/'
 
 const app = express();
 
-// mining.getHtml(link);
+// mining.getHtml(linkvn);
 
 
 

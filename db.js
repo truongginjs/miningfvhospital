@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes, Deferrable } = require('sequelize');
 const mining = require('./mining.js');
-const sequelize = new Sequelize('postgres://ivsnhdra:gyN4Z6OPzHvr6jp9ZsNLmYkfm2HkuM3f@john.db.elephantsql.com:5432/ivsnhdra') // Example for postgres
+const sequelize = new Sequelize('postgres://cctpuete:zweCsEFIeMPCSRpreLSes6Y-UXt854gr@john.db.elephantsql.com:5432/cctpuete') // Example for postgres
 
 
 
@@ -94,9 +94,16 @@ console.log(doctor === sequelize.models.doctors)
 console.log(working_hour === sequelize.models.working_hours)
 
 
-medical_specialities.forEach(async s => {
+async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+        await callback(array[index], index, array);
+    }
+}
+
+asyncForEach(medical_specialities, async (s) => {
     await medical_speciality.create(s);
 })
+
 // const d = doctors[0]
 // const w = d.working_hours[0]
 // working_hour.create({ ...w, doctor_id: d.id })
@@ -105,19 +112,16 @@ medical_specialities.forEach(async s => {
 // d.speciality_id = medical_specialities.find(x => x.name === d.speciality).id
 // delete d.speciality
 // doctor.create(d)
-
-
-doctors.forEach(async d=>{
-    d.working_hours.forEach(async w=>{
+asyncForEach(doctors,async (d)=>{
+    asyncForEach(d.working_hours, async (w) => {
         await working_hour.create({...w,doctor_id: d.id})
     })
     delete d.working_hours;
-    d.speciality_id=medical_specialities.find(x=>x.name===d.speciality).id
+    d.speciality_id = medical_specialities.find(x => x.name === d.speciality).id
     delete d.speciality
     await doctor.create(d)
 })
 
-
-
+console.log("done")
   // `sequelize.define` also returns the model
 //   console.log(medical_speciality === sequelize.models.medical_speciality); // true
