@@ -41,11 +41,7 @@ const doctor = sequelize.define('doctors', {
     },
     speciality_id: {
         type: DataTypes.INTEGER,
-        references: {
-            model: medical_speciality,
-            key: 'id',
-            deferrable: Deferrable.INITIALLY_DEFERRED
-        }
+
     },
     term_permalink: {
         type: DataTypes.TEXT
@@ -100,27 +96,49 @@ async function asyncForEach(array, callback) {
     }
 }
 
-asyncForEach(medical_specialities, async (s) => {
-    await medical_speciality.create(s);
-})
+// asyncForEach(medical_specialities, async (s) => {
+//     await medical_speciality.create(s);
+// })
 
-// const d = doctors[0]
-// const w = d.working_hours[0]
-// working_hour.create({ ...w, doctor_id: d.id })
+const doit = async () => {
 
-// delete d.working_hours;
-// d.speciality_id = medical_specialities.find(x => x.name === d.speciality).id
-// delete d.speciality
-// doctor.create(d)
-asyncForEach(doctors,async (d)=>{
-    asyncForEach(d.working_hours, async (w) => {
-        await working_hour.create({...w,doctor_id: d.id})
-    })
-    delete d.working_hours;
-    d.speciality_id = medical_specialities.find(x => x.name === d.speciality).id
-    delete d.speciality
-    await doctor.create(d)
-})
+    for await (const s of medical_specialities) {
+        try {
+            const result = medical_speciality.create(s);
+            // you can now access the newly created user
+            console.log('success', result.toJSON());
+        } catch (err) {
+            // print the error details
+            console.log(err);
+        }
+    }
+    for await (const d of doctors) {
+        for await (const w of d.working_hours) {
+            try {
+                const result = working_hour.create({ ...w, doctor_id: d.id })
+                // you can now access the newly created user
+                console.log('success', result.toJSON());
+            } catch (err) {
+                // print the error details
+                console.log(err);
+            }
+
+        }
+        delete d.working_hours;
+        d.speciality_id = medical_specialities.find(x => x.name === d.speciality).id
+        delete d.speciality
+        try {
+            const result = doctor.create(d)
+            // you can now access the newly created user
+            console.log('success', result.toJSON());
+        } catch (err) {
+            // print the error details
+            console.log(err);
+        }
+
+    }
+}
+doit();
 
 console.log("done")
   // `sequelize.define` also returns the model
